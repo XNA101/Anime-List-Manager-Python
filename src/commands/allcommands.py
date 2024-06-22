@@ -8,3 +8,5 @@ from commands.recommendlist import *;
 from commands.deleterecommendation import *;
 from commands.checkplanning import *;
 from commands.fullrecommendationlist import *;
+from commands.register import *;
+from commands.unregister import *;
