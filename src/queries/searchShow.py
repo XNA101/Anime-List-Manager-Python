@@ -2,7 +2,7 @@ import discord;
 import requests;
 from helpers.extraFunctions import *;
 
-async def searchShowByTitle(show, type, format, interaction: discord.Interaction):
+async def searchShowByTitle(show, type, format, interaction: discord.Interaction, defer = None):
   query = """
     query ($search: String, $type: MediaType, $format: MediaFormat) {
         Media (search: $search, type: $type, format: $format) {
@@ -17,15 +17,24 @@ async def searchShowByTitle(show, type, format, interaction: discord.Interaction
             large
           }
           id
+          status
+          nextAiringEpisode {
+            episode
+          }
         }
       }
     """;
-
-  variables = {
-    "search": show,
-    "type": type,
-    "format": format
-  }
+  if format == "None":
+    variables = {
+      "search": show,
+      "type": type,
+    }
+  else:
+    variables = {
+      "search": show,
+      "type": type,
+      "format": format
+    }
   
   Headers = {
       "Content-Type": "application/json",
@@ -51,24 +60,44 @@ async def searchShowByTitle(show, type, format, interaction: discord.Interaction
     episodes = data["Media"]["episodes"];
     coverImage = data["Media"]["coverImage"]["large"];
     id = data["Media"]["id"];
+    status = data["Media"]["status"];
+    if status == "RELEASING" and type == "ANIME":
+      nextEpisode = data["Media"]["nextAiringEpisode"]["episode"];
     volumes = data["Media"]["volumes"];
     chapters = data["Media"]["chapters"];
 
-    results = {
-      "title": title,
-      "description": description,
-      "episodes": episodes,
-      "coverImage": coverImage,
-      "id": id,
-      "volumes": volumes,
-      "chapters": chapters
-    }
+    if status == "RELEASING" and type == "ANIME":
+      results = {
+        "title": title,
+        "description": description,
+        "episodes": episodes,
+        "coverImage": coverImage,
+        "id": id,
+        "status": status,
+        "nextEpisode": nextEpisode,
+        "volumes": volumes,
+        "chapters": chapters
+      }
+    else:
+      results = {
+        "title": title,
+        "description": description,
+        "episodes": episodes,
+        "coverImage": coverImage,
+        "id": id,
+        "status": status,
+        "volumes": volumes,
+        "chapters": chapters
+      }
 
     return results
   
   if res.status_code == 404:
-    await interaction.response.send_message("Please make sure to input the right values for the fields.");
-
+    if defer == None:
+      await interaction.response.send_message("Please make sure to input the right values for the fields.");
+    if defer == True:
+      await interaction.followup.send("Please make sure to input the right values for the fields.");
+      
 async def searchShowById(showId, type):
   query = """
     query ($id: Int, $type: MediaType) {

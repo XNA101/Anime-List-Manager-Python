@@ -10,3 +10,5 @@ from commands.checkplanning import *;
 from commands.fullrecommendationlist import *;
 from commands.register import *;
 from commands.unregister import *;
+from commands.watched import *;
+from commands.read import *;

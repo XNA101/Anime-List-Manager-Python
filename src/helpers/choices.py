@@ -25,7 +25,25 @@ format_choices = [
   Choice(name="ONA", value="ONA"),
   Choice(name="Music", value="MUSIC"),
   Choice(name="Novel", value="NOVEL"),
-  Choice(name="One Shot", value="ONE_SHOT")
+  Choice(name="One Shot", value="ONE_SHOT"),
+  Choice(name="Not Yet Released", value="None")
+]
+
+anime_choices = [
+  Choice(name="TV", value="TV"),
+  Choice(name="Movie", value="MOVIE"),
+  Choice(name="Special", value="SPECIAL"),
+  Choice(name="OVA", value="OVA"),
+  Choice(name="ONA", value="ONA"),
+  Choice(name="Music", value="MUSIC"),
+  Choice(name="Not Yet Released", value="None")
+]
+
+manga_choices = [
+  Choice(name="Manga", value="MANGA"),
+  Choice(name="Novel", value="NOVEL"),
+  Choice(name="One Shot", value="ONE_SHOT"),
+  Choice(name="Not Yet Released", value="None")
 ]
 
 genre_choices = [

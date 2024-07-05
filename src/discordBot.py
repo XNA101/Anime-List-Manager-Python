@@ -124,6 +124,28 @@ async def fullrecommendationlist(interaction: discord.Interaction, type: str):
   if not registered:
     await interaction.response.send_message(f"**{interaction.channel.name}** is not registered. Channels need to be registered so that the commands work in them");
 
+@tree.command(name="watched", description="Updates an Anime in your Watching list")
+@app_commands.describe(title="Show title", format="Format of the Media", episode="Episode number", end="Number of the last episode you have watched")
+@app_commands.choices(format=anime_choices)
+async def watched(interaction: discord.Interaction, title: str, format: str, episode: int, end: int = None):
+  registered = isRegistered(interaction);
+  if registered:
+    await interaction.response.defer()
+    await watched_command(interaction, title, format, episode, end);
+  if not registered:
+    await interaction.response.send_message(f"**{interaction.channel.name}** is not registered. Channels need to be registered so that the commands work in them");
+
+@tree.command(name="read", description="Updates a Manga in your Watching list")
+@app_commands.describe(title="Show title", format="Format of the Media",  chapter="Chapter number", chend="Number of the last chapter you have read", volume="Volume number", vend="Number of the last volume you have read")
+@app_commands.choices(format=manga_choices)
+async def watched(interaction: discord.Interaction, title: str, format: str, chapter: int, chend: int = None, volume: int = None, vend: int = None):
+  registered = isRegistered(interaction);
+  if registered:
+    await interaction.response.defer()
+    await read_command(interaction, title, format, chapter, chend, volume, vend);
+  if not registered:
+    await interaction.response.send_message(f"**{interaction.channel.name}** is not registered. Channels need to be registered so that the commands work in them");
+
 @client.event
 async def on_ready():
   await tree.sync()

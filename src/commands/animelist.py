@@ -6,9 +6,19 @@ from helpers.embedCreator import *;
 from database.userDetails import *;
 from helpers.extraFunctions import *;
 
-def createDescription(score, status):
-  description = f"Score: {score}/10\nStatus: {status}"
-  return description
+def createDescription(show, score, status):
+  title = show["title"];
+  progress = show["progress"];
+  if status == "Completed":
+    description = f"Score: {score}/10\nStatus: {status}"
+    return description
+  else:
+    if progress == None or progress ==  0:
+      description = f"You haven't watched any episodes of **{title}**\nStatus: {status}"
+      return description
+    else:
+      description = f"Last Watched: **Ep.{progress}**\nStatus: {status}"
+      return description
 
 def createFooterText(anilistUsername, currentIndex, totalAnime):
   footerText = f"{anilistUsername}'s list | Page {currentIndex + 1}/{totalAnime}";
@@ -23,6 +33,8 @@ def embedColor(status):
     return 0xdf4cfc
   if status == "Dropped":
     return 0xff5542
+  if status == "Repeating":
+    return 0x42f587
   else:
     return 0xffffff
 
@@ -31,7 +43,7 @@ def getCurrentEmbed(self):
   title = newList["title"];
   score = newList["score"];
   status = newList["status"];
-  description = self.createDescription(score, status);
+  description = self.createDescription(newList, score, status);
   color = self.format["color"];
   imageUrl = newList["coverImage"];
   anilistUsername = newList["anilistUsername"];
@@ -57,7 +69,7 @@ def createEmbed(animeList, page = None):
     currentIndex = index;
     totalAnime = len(animeList);
   
-    description = f"Score: {score}/10\nStatus: {status}";
+    description = createDescription(anime, score, status);
     color = embedColor(status);
     imageUrl = coverImage;
     footerText = f"{anilistUsername}'s list | Page {currentIndex + 1}/{totalAnime}";
@@ -81,7 +93,7 @@ def createEmbed(animeList, page = None):
       currentIndex = index;
       totalAnime = len(animeList);
 
-      description = f"Score: {score}/10\nStatus: {status}";
+      description = createDescription(anime, score, status);
       color = embedColor(status);
       imageUrl = coverImage;
       footerText = f"{anilistUsername}'s list | Page {currentIndex + 1}/{totalAnime}";
@@ -119,6 +131,7 @@ async def getUserAnimeList(discordUserId, status):
                 }
               }
               score
+              progress
             }
             status
           }
@@ -158,12 +171,14 @@ async def getUserAnimeList(discordUserId, status):
             title = entry["media"]["title"]["userPreferred"];
             coverImage = entry["media"]["coverImage"]["large"];
             score = entry["score"];
+            progress = entry["progress"];
             
             data = {
               "title": title,
               "coverImage": coverImage,
               "score": score,
               "status": status,
+              "progress": progress,
               "anilistUsername": anilistUsername,
               "userAvatar": userAvatar
             };
@@ -193,7 +208,7 @@ async def animelist_command(interaction: discord.Interaction, status: str, page:
   if not page:
     page = 0
   
-  if type(animeList) == None:
+  if animeList == None:
     await interaction.response.send_message("User information not found.");
     return
   

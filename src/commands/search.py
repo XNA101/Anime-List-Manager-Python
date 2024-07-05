@@ -12,8 +12,10 @@ def searchedShowEmbed(type, title, description, episodes, coverImage, volumes, c
     return embed;
 
   if type == "MANGA":
-
-    cleanDescription = stripHtmlTags(description);
+    if description != None:
+      cleanDescription = stripHtmlTags(description);
+    else:
+      cleanDescription = "No Description";
     footerText = f"Volumes: {volumesCheck(volumes)}  Chapters: {chaptersCheck(chapters)}";
 
     embed = embedCreator(title=title, description=cleanDescription, color=0x524cfc, imageUrl=coverImage, footerText=footerText);
@@ -23,7 +25,7 @@ async def search_command(interaction: discord.Interaction, title: str, type: str
   show = await searchShowByTitle(title, type, format, interaction);
   
   if not show:
-    await interaction.response.send_message("A problem occurred when searching for the anime or manga");
+  #   await interaction.response.send_message("A problem occurred when searching for the anime or manga");
     return
   
   embed = searchedShowEmbed(type, show["title"], show["description"], show["episodes"], show["coverImage"], show["volumes"], show["chapters"]);

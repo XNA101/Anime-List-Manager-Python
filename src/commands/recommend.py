@@ -40,7 +40,7 @@ async def recommend_command(interaction: discord.Interaction, title, type, forma
   recommendShowSearch = await searchShowByTitle(title, type, format, interaction)
 
   if not recommendShowSearch:
-    await interaction.response.send_message("A problem occured when searching for the anime or manga");
+    # await interaction.response.send_message("A problem occured when searching for the anime or manga");
     return
   
   userDetails = getUserDetails(discordUserId);

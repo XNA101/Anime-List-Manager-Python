@@ -8,9 +8,19 @@ from helpers.extraFunctions import *;
 
 Embed = discord.Embed;
 
-def createDescription(score, status):
-  description = f"Score: {score}/10\nStatus: {status}"
-  return description
+def createDescription(show, score, status):
+  title = show["title"];
+  progress = show["progress"];
+  if status == "Completed":
+    description = f"Score: {score}/10\nStatus: {status}"
+    return description
+  else:
+    if progress == None or progress ==  0:
+      description = f"You haven't read any chapters of **{title}**\nStatus: {status}"
+      return description
+    else:
+      description = f"Last Read: **Ch.{progress}**\nStatus: {status}"
+      return description
 
 def createFooterText(anilistUsername, currentIndex, totalManga):
   footerText = f"{anilistUsername}'s list | Page {currentIndex + 1}/{totalManga}";
@@ -25,6 +35,8 @@ def embedColor(status):
     return 0xdf4cfc
   if status == "Dropped":
     return 0xff5542
+  if status == "Repeating":
+    return 0x42f587
   else:
     return 0xffffff
 
@@ -33,7 +45,7 @@ def getCurrentEmbed(self):
   title = newList["title"];
   score = newList["score"];
   status = newList["status"];
-  description = self.createDescription(score, status);
+  description = self.createDescription(newList, score, status);
   color = self.format["color"];
   imageUrl = newList["coverImage"];
   anilistUsername = newList["anilistUsername"];
@@ -59,7 +71,7 @@ def createEmbed(mangaList, page = None):
     currentIndex = index;
     totalManga = len(mangaList);
   
-    description = f"Score: {score}/10\nStatus: {status}";
+    description = createDescription(manga, score, status);
     color = embedColor(status);
     imageUrl = coverImage;
     footerText = f"{anilistUsername}'s list | Page {currentIndex + 1}/{totalManga}";
@@ -83,7 +95,7 @@ def createEmbed(mangaList, page = None):
       currentIndex = index;
       totalManga = len(mangaList);
 
-      description = f"Score: {score}/10\nStatus: {status}";
+      description = createDescription(manga, score, status);
       color = embedColor(status);
       imageUrl = coverImage;
       footerText = f"{anilistUsername}'s list | Page {currentIndex + 1}/{totalManga}";
@@ -121,6 +133,7 @@ async def getUserMangaList(discordUserId, status):
                 }
               }
               score
+              progress
             }
             status
           }
@@ -160,12 +173,14 @@ async def getUserMangaList(discordUserId, status):
             title = entry["media"]["title"]["userPreferred"];
             coverImage = entry["media"]["coverImage"]["large"];
             score = entry["score"];
+            progress = entry["progress"];
             
             data = {
               "title": title,
               "coverImage": coverImage,
               "score": score,
               "status": status,
+              "progress": progress,
               "anilistUsername": anilistUsername,
               "userAvatar": userAvatar
             };

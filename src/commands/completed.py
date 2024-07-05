@@ -35,7 +35,7 @@ async def completedShow(score, showId, accessToken):
 
   requests.post(url="https://graphql.anilist.co", headers=Headers, json=Json);
 
-async def checkUsersList(anilistUsername, showId):
+async def checkUsersList(anilistUsername, showId, interaction: discord.Interaction, showTitle, type):
   query = """
     query ($userName: String, $animeId: Int ) { # Define which variables will be used in the query (id)
         MediaList(userName: $userName, mediaId: $animeId) {
@@ -74,7 +74,7 @@ async def checkUsersList(anilistUsername, showId):
     return resultObj
   
   if res.status_code == 404:
-    print(f"Anime or Manga not found in {anilistUsername}'s list.")
+    await interaction.user.send(f"**{showTitle} ({type.capitalize()})** not found in {anilistUsername}'s list.")
     resultObj = { "found": False };
     return resultObj
 
@@ -130,7 +130,8 @@ async def completed_command(interaction: discord.Interaction, title, score: floa
   completedShowSearch = await searchShowByTitle(title, type, format, interaction);
   
   if not completedShowSearch:
-    await interaction.response.send_message("A problem occured when searching for the anime or manga");
+  #   await interaction.response.send_message("A problem occured when searching for the anime or manga");
+    return
 
   discordUserId = str(interaction.user.id)
   userDetails = getUserDetails(discordUserId);
@@ -150,25 +151,27 @@ async def completed_command(interaction: discord.Interaction, title, score: floa
   await interaction.response.send_message(embeds=[embed]);
 
   if discordUserId == "373499146507649034":
-    results = await checkUsersList("XNA", showId);
-    status = results["status"];
-    userScore = results["score"];
+    results = await checkUsersList("XNA", showId, interaction, showTitle, type);
+    if results["found"]:
+      status = results["status"];
+      userScore = results["score"];
 
-    if results["found"] and status == "COMPLETED":
-      channel = await interaction.guild.fetch_channel(1180588268576849980);
+      if results["found"] and status == "COMPLETED":
+        channel = await interaction.guild.fetch_channel(1180588268576849980);
 
-      SalbtwEmbed = completedUserEmbed(type, showTitle, showEpisodes, showCoverImage, showVolumes, showChapters, score, anilistUsername, "XNA", userScore);
-      
-      await channel.send(embeds=[SalbtwEmbed]);
+        SalbtwEmbed = completedUserEmbed(type, showTitle, showEpisodes, showCoverImage, showVolumes, showChapters, score, anilistUsername, "XNA", userScore);
+        
+        await channel.send(embeds=[SalbtwEmbed]);
 
   if discordUserId == "317725955080847361":
-    results = await checkUsersList("Salbtw", showId);
-    status = results["status"];
-    userScore = results["score"];
+    results = await checkUsersList("Salbtw", showId, interaction, showTitle, type);
+    if results["found"]:
+      status = results["status"];
+      userScore = results["score"];
 
-    if results["found"] and status == "COMPLETED":
-      channel = await interaction.guild.fetch_channel(1180588268576849980);
+      if results["found"] and status == "COMPLETED":
+        channel = await interaction.guild.fetch_channel(1180588268576849980);
 
-      XNAEmbed = completedUserEmbed(type, showTitle, showEpisodes, showCoverImage, showVolumes, showChapters, score, anilistUsername, "XNA", userScore);
-      
-      await channel.send(embeds=[XNAEmbed]);
+        XNAEmbed = completedUserEmbed(type, showTitle, showEpisodes, showCoverImage, showVolumes, showChapters, score, anilistUsername, "XNA", userScore);
+        
+        await channel.send(embeds=[XNAEmbed]);
