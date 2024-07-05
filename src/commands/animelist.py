@@ -196,10 +196,10 @@ async def animelist_command(interaction: discord.Interaction, status: str, page:
   if page:
     if page > len(animeList):
       status = animeList[0]["status"]
-      await interaction.response.send_message(f"Your **{status}** anime list has only **{len(animeList)}** pages. You've tried to go to page {page}");
+      await interaction.followup.send(f"Your **{status}** anime list has only **{len(animeList)}** pages. You've tried to go to page {page}");
       return
     if page < -len(animeList):
-      await interaction.response.send_message(f"Your **{status}** anime list has only **{len(animeList)}** pages. You've tried to go to page {page}");
+      await interaction.followup.send(f"Your **{status}** anime list has only **{len(animeList)}** pages. You've tried to go to page {page}");
       return
     if page < 0:
       page = (len(animeList) + page) - 1
@@ -209,11 +209,11 @@ async def animelist_command(interaction: discord.Interaction, status: str, page:
     page = 0
   
   if animeList == None:
-    await interaction.response.send_message("User information not found.");
+    await interaction.followup.send("User information not found.");
     return
   
   if len(animeList) == 0:
-    await interaction.response.send_message(f"Your **{capitalizeFirstLetter(status)}** list is empty.");
+    await interaction.followup.send(f"Your **{capitalizeFirstLetter(status)}** list is empty.");
     return
   
   if page:
@@ -229,5 +229,5 @@ async def animelist_command(interaction: discord.Interaction, status: str, page:
 
   # interaction.response.send_message(embeds=embed, view=create_button(animeList, currentIndex))
   btn = create_button(animeListFormat, currentIndex, embed, createDescription, getCurrentEmbed, createFooterText )
-  await interaction.response.send_message(embeds=[embed], view=btn)
+  await interaction.followup.send(embeds=[embed], view=btn)
   # print(val);

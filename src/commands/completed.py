@@ -125,9 +125,9 @@ async def completed_command(interaction: discord.Interaction, title, score: floa
   if score.is_integer():
     score = int(score);
   if score > 10:
-    await interaction.response.send_message("Score must be a number between 0 and 10.");
+    await interaction.followup.send("Score must be a number between 0 and 10.");
   
-  completedShowSearch = await searchShowByTitle(title, type, format, interaction);
+  completedShowSearch = await searchShowByTitle(title, type, format, interaction, True);
   
   if not completedShowSearch:
   #   await interaction.response.send_message("A problem occured when searching for the anime or manga");
@@ -148,7 +148,7 @@ async def completed_command(interaction: discord.Interaction, title, score: floa
 
   embed = await searchedShowEmbed(type, showTitle, showEpisodes, showCoverImage, showId, showVolumes, showChapters, score, anilistUsername, accessToken);
 
-  await interaction.response.send_message(embeds=[embed]);
+  await interaction.followup.send(embeds=[embed]);
 
   if discordUserId == "373499146507649034":
     results = await checkUsersList("XNA", showId, interaction, showTitle, type);
@@ -172,6 +172,6 @@ async def completed_command(interaction: discord.Interaction, title, score: floa
       if results["found"] and status == "COMPLETED":
         channel = await interaction.guild.fetch_channel(1180588268576849980);
 
-        XNAEmbed = completedUserEmbed(type, showTitle, showEpisodes, showCoverImage, showVolumes, showChapters, score, anilistUsername, "XNA", userScore);
+        XNAEmbed = completedUserEmbed(type, showTitle, showEpisodes, showCoverImage, showVolumes, showChapters, score, anilistUsername, "Salbtw", userScore);
         
         await channel.send(embeds=[XNAEmbed]);

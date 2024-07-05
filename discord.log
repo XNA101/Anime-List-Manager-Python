@@ -1,2 +1,56 @@
-[2024-07-05 12:06:03] [INFO    ] discord.client: logging in using static token
-[2024-07-05 12:06:05] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 9594bc0ad9718329fa42cfdf5c692003).
+[2024-07-05 14:46:22] [INFO    ] discord.client: logging in using static token
+[2024-07-05 14:46:27] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 2b14e127a878f881b91efbde2d62ac8e).
+[2024-07-05 14:47:40] [ERROR   ] discord.app_commands.tree: Ignoring exception in command 'animelist'
+Traceback (most recent call last):
+  File "C:\Users\Zubayr\AppData\Local\Programs\Python\Python311\Lib\site-packages\discord\app_commands\commands.py", line 828, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Documents\discord-bot-python\src\discordBot.py", line 40, in animelist
+    await animelist_command(interaction, status, page);
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Documents\discord-bot-python\src\commands\animelist.py", line 232, in animelist_command
+    await interaction.response.send_message(embeds=[embed], view=btn)
+  File "C:\Users\Zubayr\AppData\Local\Programs\Python\Python311\Lib\site-packages\discord\interactions.py", line 801, in send_message
+    await adapter.create_interaction_response(
+  File "C:\Users\Zubayr\AppData\Local\Programs\Python\Python311\Lib\site-packages\discord\webhook\async_.py", line 219, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Zubayr\AppData\Local\Programs\Python\Python311\Lib\site-packages\discord\app_commands\tree.py", line 1248, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\Zubayr\AppData\Local\Programs\Python\Python311\Lib\site-packages\discord\app_commands\commands.py", line 853, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Zubayr\AppData\Local\Programs\Python\Python311\Lib\site-packages\discord\app_commands\commands.py", line 846, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'animelist' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+[2024-07-05 14:47:41] [ERROR   ] discord.app_commands.tree: Ignoring exception in command 'animelist'
+Traceback (most recent call last):
+  File "C:\Users\Zubayr\AppData\Local\Programs\Python\Python311\Lib\site-packages\discord\app_commands\commands.py", line 828, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Documents\discord-bot-python\src\discordBot.py", line 40, in animelist
+    await animelist_command(interaction, status, page);
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Documents\discord-bot-python\src\commands\animelist.py", line 232, in animelist_command
+    await interaction.response.send_message(embeds=[embed], view=btn)
+  File "C:\Users\Zubayr\AppData\Local\Programs\Python\Python311\Lib\site-packages\discord\interactions.py", line 801, in send_message
+    await adapter.create_interaction_response(
+  File "C:\Users\Zubayr\AppData\Local\Programs\Python\Python311\Lib\site-packages\discord\webhook\async_.py", line 219, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Zubayr\AppData\Local\Programs\Python\Python311\Lib\site-packages\discord\app_commands\tree.py", line 1248, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\Zubayr\AppData\Local\Programs\Python\Python311\Lib\site-packages\discord\app_commands\commands.py", line 853, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Zubayr\AppData\Local\Programs\Python\Python311\Lib\site-packages\discord\app_commands\commands.py", line 846, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'animelist' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction

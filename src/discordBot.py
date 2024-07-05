@@ -37,6 +37,7 @@ async def unregister(interaction: discord.Interaction, channel: discord.channel.
 async def animelist(interaction, status: str, page: int = None):
   registered = isRegistered(interaction);
   if registered:
+    await interaction.response.defer();
     await animelist_command(interaction, status, page);
   if not registered:
     await interaction.response.send_message(f"**{interaction.channel.name}** is not registered. Channels need to be registered so that the commands work in them");
@@ -48,6 +49,7 @@ async def animelist(interaction, status: str, page: int = None):
 async def mangalist(interaction, status: str, page: int = None):
   registered = isRegistered(interaction);
   if registered:
+    await interaction.response.defer();
     await mangalist_command(interaction, status, page);
   if not registered:
     await interaction.response.send_message(f"**{interaction.channel.name}** is not registered. Channels need to be registered so that the commands work in them");
@@ -58,6 +60,7 @@ async def mangalist(interaction, status: str, page: int = None):
 async def search(interaction, title: str, type: str, format: str):
   registered = isRegistered(interaction);
   if registered:
+    await interaction.response.defer();
     await search_command(interaction, title, type, format);
   if not registered:
     await interaction.response.send_message(f"**{interaction.channel.name}** is not registered. Channels need to be registered so that the commands work in them");
@@ -68,6 +71,7 @@ async def search(interaction, title: str, type: str, format: str):
 async def completed(interaction, title: str, score: float, type: str, format: str):
   registered = isRegistered(interaction);
   if registered:
+    await interaction.response.defer();
     await completed_command(interaction, title, score, type, format);
   if not registered:
     await interaction.response.send_message(f"**{interaction.channel.name}** is not registered. Channels need to be registered so that the commands work in them");
@@ -78,6 +82,7 @@ async def completed(interaction, title: str, score: float, type: str, format: st
 async def recommend(interaction, title: str, type: str, format: str, genre: str):
   registered = isRegistered(interaction);
   if registered:
+    await interaction.response.defer();
     await recommend_command(interaction, title, type, format, genre);
   if not registered:
     await interaction.response.send_message(f"**{interaction.channel.name}** is not registered. Channels need to be registered so that the commands work in them");
@@ -99,6 +104,7 @@ async def recommendlist(interaction: discord.Interaction, type: str,  genre: str
 async def deleterecommendation(interaction, title: str, type: str, format: str, genre: str):
   registered = isRegistered(interaction);
   if registered:
+    await interaction.response.defer();
     await deleterecommendation_command(interaction, title, type, format, genre);
   if not registered:
     await interaction.response.send_message(f"**{interaction.channel.name}** is not registered. Channels need to be registered so that the commands work in them");
@@ -109,6 +115,7 @@ async def deleterecommendation(interaction, title: str, type: str, format: str, 
 async def checkplanning(interaction: discord.Interaction, title: str, type: str, format: str, user: discord.user.User):
   registered = isRegistered(interaction);
   if registered:
+    await interaction.response.defer();
     await checkplanning_command(interaction, title, type, format, user);
   if not registered:
     await interaction.response.send_message(f"**{interaction.channel.name}** is not registered. Channels need to be registered so that the commands work in them");

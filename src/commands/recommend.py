@@ -37,7 +37,7 @@ async def userStoreRecommendation(userUsername, genre, showTitle, showId, type):
 async def recommend_command(interaction: discord.Interaction, title, type, format, genre):
   discordUserId = str(interaction.user.id);
 
-  recommendShowSearch = await searchShowByTitle(title, type, format, interaction)
+  recommendShowSearch = await searchShowByTitle(title, type, format, interaction, True)
 
   if not recommendShowSearch:
     # await interaction.response.send_message("A problem occured when searching for the anime or manga");
@@ -61,4 +61,4 @@ async def recommend_command(interaction: discord.Interaction, title, type, forma
   if discordUserId == "373499146507649034":
     await userStoreRecommendation("Salbtw", genre, showTitle, showId, type);
 
-  await interaction.response.send_message(embeds=[embed]);
+  await interaction.followup.send(embeds=[embed]);

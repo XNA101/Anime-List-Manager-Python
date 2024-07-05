@@ -65,7 +65,7 @@ async def checkPlanning(title, type, format, discordUserId, interaction: discord
   if "anilistUsername" in userDetails:
     anilistUsername = userDetails["anilistUsername"];
     
-    showDetails = await searchShowByTitle(title, type, format, interaction);
+    showDetails = await searchShowByTitle(title, type, format, interaction, True);
 
     showId = showDetails["id"];
 
@@ -104,7 +104,7 @@ def checkPlanningEmbed(showTitle, coverImage, status, anilistUsername, type):
 
 async def checkplanning_command(interaction: discord.Interaction, title, type, format, user: discord.user.User):
   if user.bot:
-      await interaction.response.send_message(f"{user.display_name} is not a user. Please enter a valid user in the user field.");
+      await interaction.followup.send(f"{user.display_name} is not a user. Please enter a valid user in the user field.");
       return
   
   discordUserId = str(user.id);
@@ -112,7 +112,7 @@ async def checkplanning_command(interaction: discord.Interaction, title, type, f
   showInfo = await checkPlanning(title, type, format, discordUserId, interaction);
 
   if showInfo == None:
-    await interaction.response.send_message(f"{user.display_name} is not authenticated. Please enter an authenticated user in the user field");
+    await interaction.followup.send(f"{user.display_name} is not authenticated. Please enter an authenticated user in the user field");
     return
   
   showTitle = showInfo["showDetails"]["title"];
@@ -122,4 +122,4 @@ async def checkplanning_command(interaction: discord.Interaction, title, type, f
 
   embed = checkPlanningEmbed(showTitle, coverImage, status, anilistUsername, type)
 
-  await interaction.response.send_message(embeds=[embed]);
+  await interaction.followup.send(embeds=[embed]);

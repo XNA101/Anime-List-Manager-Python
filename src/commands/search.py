@@ -22,7 +22,7 @@ def searchedShowEmbed(type, title, description, episodes, coverImage, volumes, c
     return embed
 
 async def search_command(interaction: discord.Interaction, title: str, type: str, format: str):
-  show = await searchShowByTitle(title, type, format, interaction);
+  show = await searchShowByTitle(title, type, format, interaction, True);
   
   if not show:
   #   await interaction.response.send_message("A problem occurred when searching for the anime or manga");
@@ -31,6 +31,6 @@ async def search_command(interaction: discord.Interaction, title: str, type: str
   embed = searchedShowEmbed(type, show["title"], show["description"], show["episodes"], show["coverImage"], show["volumes"], show["chapters"]);
 
   if embed:
-    await interaction.response.send_message(embeds=[embed]);
+    await interaction.followup.send(embeds=[embed]);
   else:
-    await interaction.response.send_message("An error occurred while processing your request.")
+    await interaction.followup.send("An error occurred while processing your request.")

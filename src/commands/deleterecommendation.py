@@ -39,7 +39,7 @@ async def userDelRec(userUsername, genre, showTitle, type, interaction):
 async def deleterecommendation_command(interaction: discord.Interaction, title, type, format, genre):
   discordUserId = str(interaction.user.id);
 
-  delRecShowSearch = await searchShowByTitle(title, type, format, interaction);
+  delRecShowSearch = await searchShowByTitle(title, type, format, interaction, True);
 
   if not delRecShowSearch:
     # await interaction.response.send_message("A problem occured when searching for the anime or manga");
@@ -63,7 +63,7 @@ async def deleterecommendation_command(interaction: discord.Interaction, title, 
     result = await userDelRec("Salbtw", genre, showTitle, type, interaction);
 
   if result == False:
-    await interaction.response.send_message(f"It appears that this {type.capitalize()} is not in your **{genre}** recommendation list.");
+    await interaction.followup.send(f"It appears that this {type.capitalize()} is not in your **{genre}** recommendation list.");
     return
   else:
-    await interaction.response.send_message(embeds=[embed]);
+    await interaction.followup.send(embeds=[embed]);
